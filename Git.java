@@ -69,18 +69,16 @@ public class Git {
         bw.close(); 
     }
 
-    public void makeBLOB (String fileName) throws IOException, NoSuchAlgorithmException {
+    public void makeBLOB(String fileName) throws IOException, NoSuchAlgorithmException {
         String hash = hashingFunction(fileName);
-        File file = new File ("git/objects", hash);
+        File file = new File("git/objects", hash);
         file.createNewFile();
-        fileWriter (fileName,file);
+        fileWriter(fileName, file);
         String toAppend = hash + " " + new File(fileName).getName();
-        BufferedWriter bw = new BufferedWriter(new FileWriter (indexFile));
-        for (int i = 0; i < toAppend.length(); i++) {
-            bw.append(toAppend.charAt(i));
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(indexFile, true))) {
+            bw.append(toAppend);
+            bw.newLine(); 
         }
-        bw.append("\n");
-        bw.close();
     }
 
 }
