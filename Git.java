@@ -1,16 +1,20 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Git {
+    File gitDirectory = new File ("git");
+    File objectsDirectory = new File ("git/objects");
+    String indexFileName = "index";
+    File indexFile = new File (gitDirectory, indexFileName);
     public Git () throws IOException {
-        File gitDirectory = new File ("git");
-        File objectsDirectory = new File ("git/objects");
-        String indexFileName = "index";
-        File indexFile = new File (gitDirectory, indexFileName);
         if (!gitDirectory.exists()) {
             gitDirectory.mkdir();
             objectsDirectory.mkdirs();
@@ -55,10 +59,28 @@ public class Git {
         return hexString.toString();
     }
 
+    public void fileWriter (String toRead, File toWrite) throws IOException {
+        BufferedWriter bw = new BufferedWriter (new FileWriter (toWrite));
+        BufferedReader br = new BufferedReader(new FileReader(toRead));
+        while (br.ready()) {
+            bw.append((char) br.read());
+        }
+        br.close();
+        bw.close(); 
+    }
+
     public void makeBLOB (String fileName) throws IOException, NoSuchAlgorithmException {
         String hash = hashingFunction(fileName);
-        File newObject = new File ("git/objects/hash");
-        newObject.mkdirs();
+        File file = new File ("git/objects", hash);
+        file.createNewFile();
+        fileWriter (fileName,file);
+        String toAppend = hash + " " + new File(fileName).getName();
+        BufferedWriter bw = new BufferedWriter(new FileWriter (indexFile));
+        for (int i = 0; i < toAppend.length(); i++) {
+            bw.append(toAppend.charAt(i));
+        }
+        bw.append("\n");
+        bw.close();
     }
 
 }
