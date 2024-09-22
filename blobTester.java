@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 
 public class blobTester {
     public static void main (String [] args) throws NoSuchAlgorithmException, IOException {
+        String yn = "";
+        do {
         Git myGit = new Git();
 
         boolean one = true;
@@ -50,5 +52,10 @@ public class blobTester {
             myGit.makeBLOB("file2");
             myGit.makeBLOB("file3");
         }
+        yn = JOptionPane.showInputDialog("Do you want to add more answers? (Y/N): ");
+
+    } while (yn.equals ("Y"));
+    
     }
+
 }
