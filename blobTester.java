@@ -70,13 +70,37 @@ public class blobTester {
             System.out.print("Actual File Contents: ");
             System.out.println(brH.readLine());
             System.out.println("\n");
+            brH.close();
+
+            myGit.makeBLOB("hardCoded.txt");
+
+            System.out.println("Objects Folder Check: ");
+            File hCF = new File ("git/objects/d460c4f03aca92411f7b7d7e9018647c5589a4d9");
+            if (hCF.exists()) {
+                System.out.println("File IS in objects folder!");
+            }
+            else {
+                System.out.println("File IS NOT in objects folder!");
+            }
+            System.out.println("\n");
+
+            System.out.println("Index File Check: ");
+            BufferedReader indexFileChecker = new BufferedReader (new FileReader ("git/index"));
+            System.out.println("Expected Entry: d460c4f03aca92411f7b7d7e9018647c5589a4d9 hardCoded.txt");
+            System.out.print("Actual Entry: ");
+            while (indexFileChecker.ready()) {
+                if (indexFileChecker.readLine().equals("d460c4f03aca92411f7b7d7e9018647c5589a4d9 hardCoded.txt")) {
+                    System.out.println ("d460c4f03aca92411f7b7d7e9018647c5589a4d9 hardCoded.txt");
+                }
+            }
+            indexFileChecker.close();
 
         }
         yn = JOptionPane.showInputDialog("Do you want to add more answers? (Y/N): ");
 
     } while (yn.equals ("Y"));
     //blank file with just venilla and test sha1 on that hard-coded file. 
-
+    
     
     }
 
