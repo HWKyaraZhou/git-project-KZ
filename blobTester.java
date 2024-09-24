@@ -1,5 +1,7 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -35,9 +37,9 @@ public class blobTester {
             JOptionPane.showMessageDialog(null, "You provided no answers to any of my questions...I guess you hate me!", "Error", JOptionPane.ERROR_MESSAGE);
         }
         else {
-            File file1 = new File("file1");
-            File file2 = new File ("file2");
-            File file3 = new File ("file3");
+            File file1 = new File("file1.txt");
+            File file2 = new File ("file2.txt");
+            File file3 = new File ("file3.txt");
             BufferedWriter bw1 = new BufferedWriter(new FileWriter(file1));
             bw1.write(input1);
             bw1.close();
@@ -48,13 +50,33 @@ public class blobTester {
             bw3.write(input3);
             bw3.close();
 
-            myGit.makeBLOB("file1");
-            myGit.makeBLOB("file2");
-            myGit.makeBLOB("file3");
+            myGit.makeBLOB("file1.txt");
+            myGit.makeBLOB("file2.txt");
+            myGit.makeBLOB("file3.txt");
+
+            System.out.println("Validating Hash: ");
+            File hardCodedFile = new File ("hardCoded.txt");
+            BufferedWriter bwH = new BufferedWriter(new FileWriter(hardCodedFile));
+            bwH.write("This file is hard coded!");
+            bwH.close();
+            System.out.println("Expected Hash: d460c4f03aca92411f7b7d7e9018647c5589a4d9");
+            System.out.print("Generated Hash: ");
+            System.out.println(myGit.hashingFunction("hardCoded.txt"));
+            System.out.println ("\n");
+            
+            System.out.println("Validating File Contents: ");
+            BufferedReader brH = new BufferedReader(new FileReader("hardCoded.txt"));
+            System.out.println("Expected: This file is hard coded!");
+            System.out.print("Actual File Contents: ");
+            System.out.println(brH.readLine());
+            System.out.println("\n");
+
         }
         yn = JOptionPane.showInputDialog("Do you want to add more answers? (Y/N): ");
 
     } while (yn.equals ("Y"));
+    //blank file with just venilla and test sha1 on that hard-coded file. 
+
     
     }
 
