@@ -34,7 +34,7 @@ public class initTester {
         File objectsDirectory = new File ("git/objects");
         String indexFileName = "index";
         File indexFile = new File (gitDirectory, indexFileName);
-        Git myGit1 = new Git();
+        Git myGit1 = new Git(false);
 
         System.out.println("Case 1: Has Everything");
         System.out.println("Expected Output: Git Directory, Objects Directory, and Index File ALL EXISTED.");
@@ -43,7 +43,7 @@ public class initTester {
         System.out.println("");
 
         System.out.println("Case 2: Has Git Directory with Nothing Inside");
-        Git myGit2 = new Git();
+        Git myGit2 = new Git(false);
         objectsDirectory.delete();
         indexFile.delete();
         System.out.println("Expected Output: Git Directory EXISTED. Objects Directory and Index File DID NOT EXIST.");
@@ -52,7 +52,7 @@ public class initTester {
         System.out.println("");
 
         System.out.println("Case 3: Has Git Directory with No Objects Directory");
-        Git myGit3 = new Git();
+        Git myGit3 = new Git(false);
         objectsDirectory.delete();
         System.out.println("Expected Output: Git Directory, and Index File EXISTED. Objects Directory DID NOT EXIST.");
         System.out.print("Tester Output: ");
@@ -60,7 +60,7 @@ public class initTester {
         System.out.println("");
 
         System.out.println("Case 4: Has Git Directory with No Index File");
-        Git myGit4 = new Git();
+        Git myGit4 = new Git(false);
         indexFile.delete();
         System.out.println("Expected Output: Git Directory, and Objects Directory EXISTED. Index File DID NOT EXIST.");
         System.out.print("Tester Output: ");

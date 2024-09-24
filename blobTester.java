@@ -11,7 +11,7 @@ public class blobTester {
     public static void main (String [] args) throws NoSuchAlgorithmException, IOException {
         String yn = "";
         do {
-        Git myGit = new Git();
+        Git myGit = new Git(false);
 
         boolean one = true;
         boolean two = true;
