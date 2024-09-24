@@ -98,15 +98,7 @@ public class blobTester {
         }
         yn = JOptionPane.showInputDialog("Do you want to add more answers? (Y/N): ");
 
-    } while (yn.equals ("Y"));
-    //blank file with just venilla and test sha1 on that hard-coded file. 
-    
-    Git compressedGit = new Git (true);
-    File toCompress = new File ("compressMe.txt");
-    BufferedWriter bC = new BufferedWriter(new FileWriter(toCompress));
-    bC.write("Compress me, godammit!");
-    bC.close();
-    compressedGit.makeBLOB("compressMe.txt");
+    } while (yn.equals ("Y"));   
     }
 
 }
