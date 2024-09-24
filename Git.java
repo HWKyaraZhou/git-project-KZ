@@ -7,11 +7,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.util.zip.DeflaterOutputStream;
 
 public class Git {
     File gitDirectory = new File ("git");
@@ -43,36 +41,23 @@ public class Git {
 
     }
 
-    public void zipData (String fileName) {
-        String zippedFile = "zippedFile.zip";
-        try {
-            zipFile(fileName, zippedFile);
-        } catch (Exception e) {
-        }
-    }
-
-    private static void zipFile(String sourceFile, String zipFile) throws IOException {
-        try (FileInputStream fis = new FileInputStream(sourceFile);
-             FileOutputStream fos = new FileOutputStream(zipFile);
-             ZipOutputStream zos = new ZipOutputStream(fos)) {
-
-            ZipEntry zipEntry = new ZipEntry(Path.of(sourceFile).getFileName().toString());
-            zos.putNextEntry(zipEntry);
-
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = fis.read(buffer)) >= 0) {
-                zos.write(buffer, 0, length);
-            }
-
-            zos.closeEntry();
-        }
+    public void compressData (String fileName) throws IOException {
+        FileInputStream fis = new FileInputStream(fileName);
+        FileOutputStream fos = new FileOutputStream("compressedFile.zip");
+        DeflaterOutputStream dos = new DeflaterOutputStream(fos);
+        int data; 
+        while ((data=fis.read())!=-1) 
+        { 
+            dos.write(data); 
+        } 
+        fis.close(); 
+        dos.close(); 
     }
 
     public String hashingFunction(String fileName) throws FileNotFoundException, NoSuchAlgorithmException, IOException {
         if (toZip) {
-            zipData(fileName);
-            fileName = "zippedFile.zip";
+            compressData(fileName);
+            fileName = "compressedFile.zip";
         }
         File file = new File(fileName);
         MessageDigest digest = MessageDigest.getInstance("SHA-1");
