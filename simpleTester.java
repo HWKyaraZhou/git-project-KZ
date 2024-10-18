@@ -12,10 +12,13 @@ public class simpleTester {
         
         // testing the mk blob with trees
         Git myGit = new Git(false);
-        mkTesters();
+        //mkTesters();
         //myGit.makeBLOB("./hm"); // testing file not found exception
-        myGit.makeBLOB("./testingFolder");
-
+        File file = new File("./penis.txt");
+        file.createNewFile();
+        myGit.stage("./penis.txt");
+        myGit.commit("dylan", "penis");
+        myGit.checkout("./git/objects/33b71332dcb08706a60ee7ed88b73d5473e36b29");
     }
 
 
